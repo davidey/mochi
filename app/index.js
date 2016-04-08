@@ -31,6 +31,10 @@ var CardForm = React.createClass({
     db.post(card, function(err, result) {
       if (!err) {
         console.log('Added card to DB');
+        self.setState({
+          front: '',
+          back: '' 
+        });
       } else {
         console.log(err);
       }
@@ -42,9 +46,9 @@ var CardForm = React.createClass({
         <h2>Add Card</h2>
         <form onSubmit={this.handleSubmit}>
           <label>Front</label>
-          <input type="text" name="front" onChange={this.handleFrontChange} />
+          <input type="text" name="front" value={this.state.front} onChange={this.handleFrontChange} />
           <label>Back</label>
-          <input type="text" name="back"  onChange={this.handleBackChange} />
+          <input type="text" name="back"  value={this.state.back} onChange={this.handleBackChange} />
           <input type="submit" value="Save" />
         </form>
       </div>
