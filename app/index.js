@@ -1,8 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PouchDB from 'pouchdb';
+import { createStore } from 'redux';
+
+import { ADD_CARD, addCard } from './actions.js';
 
 var db = new PouchDB('cards');
+
+const reducer = (state = 0, action) => {
+  switch(action.type) {
+    case ADD_CARD:
+      return state + 1;
+    default:
+      return state;
+  }
+};
+
+const store = createStore(reducer);
+
+store.subscribe(() => {
+  console.log(store.getState());
+});
 
 var CardForm = React.createClass({
   getInitialState: function() {
@@ -24,7 +42,8 @@ var CardForm = React.createClass({
       front: this.state.front,
       back: this.state.back
     };
-    console.log(card, db);
+
+    store.dispatch(addCard(card));
 
     var self = this;
 
@@ -33,7 +52,7 @@ var CardForm = React.createClass({
         console.log('Added card to DB');
         self.setState({
           front: '',
-          back: '' 
+          back: ''
         });
       } else {
         console.log(err);
