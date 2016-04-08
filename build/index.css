@@ -1,0 +1,4 @@
+label, input[type="text"] {
+  display: block;
+  width: 400px;
+}
