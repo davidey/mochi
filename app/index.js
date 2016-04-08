@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PouchDB from 'pouchdb';
+
+var db = new PouchDB('cards');
 
 var CardForm = React.createClass({
   getInitialState: function() {
@@ -9,7 +12,6 @@ var CardForm = React.createClass({
     };
   },
   handleFrontChange: function(e) {
-    console.log(e);
     this.setState({front: e.target.value});
   },
   handleBackChange: function(e) {
@@ -17,7 +19,22 @@ var CardForm = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    console.log(this.state);
+
+    let card = {
+      front: this.state.front,
+      back: this.state.back
+    };
+    console.log(card, db);
+
+    var self = this;
+
+    db.post(card, function(err, result) {
+      if (!err) {
+        console.log('Added card to DB');
+      } else {
+        console.log(err);
+      }
+    });
   },
   render: function() {
     return (
