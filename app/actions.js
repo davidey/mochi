@@ -1,8 +1,12 @@
 import PouchDB from 'pouchdb';
 
+import { store } from './store.js';
+
 var db = new PouchDB('cards');
 
 export const ADD_CARD = 'ADD_CARD';
+export const FETCH_CARDS = 'FETCH_CARDS';
+export const FETCH_CARDS_SUCCESS = 'FETCH_CARDS_SUCCESS';
 
 export function addCard(card) {
   db.post(card, function(err, result) {
@@ -16,5 +20,25 @@ export function addCard(card) {
   return {
     type: ADD_CARD,
     card
+  };
+}
+
+export function fetchCards() {
+  db.allDocs({include_docs: true, descending: true}, function(err, doc) {
+    if (!err) {
+      let cards = doc.rows.map(row => row.doc);
+      store.dispatch(fetchCardsSuccess(cards));
+    }
+  });
+
+  return {
+    type: FETCH_CARDS
+  };
+}
+
+export function fetchCardsSuccess(cards) {
+  return {
+    type: FETCH_CARDS_SUCCESS,
+    cards: cards
   };
 }
