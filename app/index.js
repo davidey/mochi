@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PouchDB from 'pouchdb';
 
 import { ADD_CARD, addCard } from './actions.js';
 import { store } from './store.js';
-
-var db = new PouchDB('cards');
 
 var CardForm = React.createClass({
   getInitialState: function() {
@@ -32,14 +29,6 @@ var CardForm = React.createClass({
     };
 
     store.dispatch(addCard(card));
-
-    db.post(card, function(err, result) {
-      if (!err) {
-        console.log('Added card to DB');
-      } else {
-        console.log(err);
-      }
-    });
   },
   render: function() {
     return (
