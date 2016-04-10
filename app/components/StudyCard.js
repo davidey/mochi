@@ -25,11 +25,13 @@ const StudyCard = React.createClass({
   },
   renderBack: function () {
     const props = this.props;
-    
+
     return (
       <div>
         <p>{props.back}</p>
-        <button onClick={this.props.onNext}>Next</button>
+        {props.hasNext ?
+          <button onClick={this.props.onNext}>Next</button> : null
+        }
       </div>
     );
   }

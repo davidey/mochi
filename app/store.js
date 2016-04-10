@@ -1,6 +1,6 @@
 
 import { ADD_CARD, FETCH_CARDS, FETCH_CARDS_SUCCESS, FETCH_CARDS_TO_STUDY,
-        FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK } from './actions.js';
+        FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK, STUDY_NEXT } from './actions.js';
 import { createStore, combineReducers } from 'redux';
 
 const defaultStudyState = {
@@ -9,6 +9,8 @@ const defaultStudyState = {
     front: '',
     back: ''
   },
+  currentIndex: 0,
+  hasNext: true,
   showBack: false
 };
 
@@ -46,12 +48,22 @@ const studyReducer = (state = defaultStudyState, action) => {
     case FETCH_CARDS_TO_STUDY_SUCCESS:
       return Object.assign({}, state, {
         list: action.cards,
-        current: action.cards[0]
+        current: action.cards[0],
+        currentIndex: 0,
+        hasNext: true
       });
     case VIEW_BACK:
-    return Object.assign({}, state, {
-      showBack: true
-    });
+      return Object.assign({}, state, {
+        showBack: true
+      });
+    case STUDY_NEXT:
+      const nextIndex = state.currentIndex + 1;
+      return Object.assign({}, state, {
+        current: state.list[nextIndex],
+        currentIndex: nextIndex,
+        hasNext: state.list.length > nextIndex + 1,
+        showBack: false
+      });
     default:
       return state;
   }

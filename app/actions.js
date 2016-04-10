@@ -11,6 +11,7 @@ export const FETCH_CARDS_TO_STUDY = 'FETCH_CARDS_TO_STUDY';
 export const FETCH_CARDS_TO_STUDY_SUCCESS = 'FETCH_CARDS_TO_STUDY_SUCCESS';
 
 export const VIEW_BACK = 'VIEW_BACK';
+export const STUDY_NEXT = 'STUDY_NEXT';
 
 export function addCard(card) {
   db.post(card, function(err, result) {
@@ -70,5 +71,11 @@ export function fetchCardsToStudySuccess(cards) {
 export function viewBack() {
   return {
     type: VIEW_BACK
+  };
+}
+
+export function studyNext() {
+  return {
+    type: STUDY_NEXT
   };
 }

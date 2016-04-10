@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { viewBack, fetchCardsToStudy } from '../actions.js';
+import { viewBack, fetchCardsToStudy, studyNext } from '../actions.js';
 
 import StudyCard from './StudyCard';
 
 function mapStateToProps(state) {
+  const { study } = state;
   return {
-    showBack: state.study.showBack,
-    front: state.study.current.front,
-    back: state.study.current.back
+    front: study.current.front,
+    back: study.current.back,
+    showBack: study.showBack,
+    hasNext: study.hasNext
   };
 }
 
@@ -17,6 +19,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onViewBack: (fields) => {
       dispatch(viewBack());
+    },
+    onNext: () => {
+      dispatch(studyNext());
     }
   };
 }
