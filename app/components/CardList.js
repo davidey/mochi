@@ -6,14 +6,14 @@ import { store } from '../store.js';
 var CardList = React.createClass({
   getInitialState: function() {
     return {
-      cards: store.getState().cards
+      cards: store.getState().cards.list
     }
   },
   componentDidMount: function() {
     var self = this;
     store.subscribe(() => {
       self.setState({
-        cards: store.getState().cards
+        cards: store.getState().cards.list
       });
     });
   },

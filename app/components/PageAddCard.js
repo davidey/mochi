@@ -9,8 +9,8 @@ import CardForm from './CardForm';
 function mapStateToProps(state) {
   return {
     fields: {
-      front: state.currentCard.front,
-      back: state.currentCard.back
+      front: state.cards.current.front,
+      back: state.cards.current.back
     }
   };
 }

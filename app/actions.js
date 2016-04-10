@@ -8,6 +8,8 @@ export const ADD_CARD = 'ADD_CARD';
 export const FETCH_CARDS = 'FETCH_CARDS';
 export const FETCH_CARDS_SUCCESS = 'FETCH_CARDS_SUCCESS';
 
+export const VIEW_BACK = 'VIEW_BACK';
+
 export function addCard(card) {
   db.post(card, function(err, result) {
     if (!err) {
@@ -40,5 +42,11 @@ export function fetchCardsSuccess(cards) {
   return {
     type: FETCH_CARDS_SUCCESS,
     cards: cards
+  };
+}
+
+export function viewBack() {
+  return {
+    type: VIEW_BACK
   };
 }
