@@ -9,6 +9,7 @@ import { store } from './store.js';
 
 import App from './components/App';
 import PageAddCard from './components/PageAddCard';
+import PageStudy from './components/PageStudy';
 import CardList from './components/CardList';
 
 store.dispatch(fetchCards());
@@ -16,6 +17,7 @@ store.dispatch(fetchCards());
 const routes = <Route component={App}>
   <Route path="/" component={CardList} />
   <Route path="/add" component={PageAddCard} />
+  <Route path="/study" component={PageStudy} />
 </Route>;
 
 ReactDOM.render(
