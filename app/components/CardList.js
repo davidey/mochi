@@ -3,8 +3,6 @@ import React from 'react';
 import { FETCH_CARDS, fetchCards } from '../actions.js';
 import { store } from '../store.js';
 
-store.dispatch(fetchCards());
-
 var CardList = React.createClass({
   getInitialState: function() {
     return {
