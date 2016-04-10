@@ -1,11 +1,16 @@
 import React from 'react';
 
-import CardList from './CardList';
-import CardForm from './CardForm';
+import Navigation from './Navigation';
 
 var App = React.createClass({
   render: function() {
-    return React.cloneElement(this.props.children);
+    const children = React.cloneElement(this.props.children);
+    return (
+      <div>
+        <Navigation />
+        {children}
+      </div>
+    )
   }
 });
 
