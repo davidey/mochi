@@ -9,7 +9,6 @@ var CardForm = React.createClass({
     };
   },
   componentWillReceiveProps(nextProps) {
-    console.log('getting props')
     const { fields } = nextProps;
     this.setState({
       fields

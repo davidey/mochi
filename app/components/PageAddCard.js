@@ -7,7 +7,6 @@ import { store } from '../store.js';
 import CardForm from './CardForm';
 
 function mapStateToProps(state) {
-  console.log('state');
   return {
     fields: {
       front: state.currentCard.front,
@@ -17,7 +16,6 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  console.log('dispatch');
   return {
     onSubmit: (fields) => {
       dispatch(addCard(fields));
