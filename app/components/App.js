@@ -5,12 +5,7 @@ import CardForm from './CardForm';
 
 var App = React.createClass({
   render: function() {
-    return (
-      <div className="app">
-        <CardList />
-        <CardForm />
-      </div>
-    );
+    return React.cloneElement(this.props.children);
   }
 });
 
