@@ -14,17 +14,21 @@ const StudyCard = React.createClass({
     );
   },
   renderFront: function () {
+    const props = this.props;
+
     return (
       <div>
-        <p>Front</p>
+        <p>{props.front}</p>
         <button onClick={this.props.onViewBack}>View back</button>
       </div>
     );
   },
   renderBack: function () {
+    const props = this.props;
+    
     return (
       <div>
-        <p>Back</p>
+        <p>{props.back}</p>
         <button onClick={this.props.onNext}>Next</button>
       </div>
     );
