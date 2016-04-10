@@ -8,14 +8,14 @@ import { FETCH_CARDS, fetchCards } from './actions.js';
 import { store } from './store.js';
 
 import App from './components/App';
-import CardForm from './components/CardForm';
+import PageAddCard from './components/PageAddCard';
 import CardList from './components/CardList';
 
 store.dispatch(fetchCards());
 
 const routes = <Route component={App}>
   <Route path="/" component={CardList} />
-  <Route path="/add" component={CardForm} />
+  <Route path="/add" component={PageAddCard} />
 </Route>;
 
 ReactDOM.render(

@@ -1,46 +1,51 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { ADD_CARD, addCard } from '../actions.js';
-import { store } from '../store.js';
+import { extend } from 'lodash';
 
 var CardForm = React.createClass({
   getInitialState: function() {
-    return store.getState().currentCard;
+    const { fields } = this.props;
+    return {
+      fields
+    };
   },
-  componentDidMount: function() {
-    var self = this;
-    store.subscribe(() => {
-      self.setState(store.getState().currentCard);
+  componentWillReceiveProps(nextProps) {
+    console.log('getting props')
+    const { fields } = nextProps;
+    this.setState({
+      fields
     });
   },
   handleFrontChange: function(e) {
-    this.setState({front: e.target.value});
+    const fields = extend(this.state.fields, {
+      front: e.target.value
+    });
+    this.setState({
+      fields: fields
+    });
   },
   handleBackChange: function(e) {
-    this.setState({back: e.target.value});
+    const fields = extend(this.state.fields, {
+      back: e.target.value
+    });
+    this.setState({
+      fields: fields
+    });
   },
   handleSubmit: function(e) {
     e.preventDefault();
-
-    let card = {
-      front: this.state.front,
-      back: this.state.back
-    };
-
-    this.props.onSubmit(card);
+    this.props.onSubmit(this.state.fields);
   },
   render: function() {
-    const state = this.state;
+    const { fields } = this.state;
 
     return (
       <div className="cardForm">
         <h2>Add Card</h2>
         <form onSubmit={this.handleSubmit}>
           <label>Front</label>
-          <input type="text" name="front" value={state.front} onChange={this.handleFrontChange} />
+          <input type="text" name="front" value={fields.front} onChange={this.handleFrontChange} />
           <label>Back</label>
-          <input type="text" name="back"  value={state.back} onChange={this.handleBackChange} />
+          <input type="text" name="back"  value={fields.back} onChange={this.handleBackChange} />
           <input type="submit" value="Save" />
         </form>
       </div>
@@ -48,21 +53,4 @@ var CardForm = React.createClass({
   }
 });
 
-function mapStateToProps(state) {
-  console.log('state')
-  return {
-    front: state.currentCard.front,
-    back: state.currentCard.back
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  console.log('dispatch');
-  return {
-    onSubmit: (card) => {
-      dispatch(addCard(card));
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardForm);
+export default CardForm;
