@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { viewBack, setCardQuality } from '../actions.js';
 
 const StudyCard = React.createClass({
   render () {
@@ -29,12 +32,38 @@ const StudyCard = React.createClass({
     return (
       <div>
         <p>{props.back}</p>
-        {props.hasNext ?
-          <button onClick={this.props.onNext}>Next</button> : null
-        }
+        <ul>
+          <li><button onClick={props.onSetQuality.bind(this, 0)}>0</button></li>
+          <li><button onClick={props.onSetQuality.bind(this, 1)}>1</button></li>
+          <li><button onClick={props.onSetQuality.bind(this, 2)}>2</button></li>
+          <li><button onClick={props.onSetQuality.bind(this, 3)}>3</button></li>
+          <li><button onClick={props.onSetQuality.bind(this, 4)}>4</button></li>
+          <li><button onClick={props.onSetQuality.bind(this, 5)}>5</button></li>
+        </ul>
       </div>
     );
   }
 });
 
-export default StudyCard;
+function mapStateToProps(state) {
+  const { study } = state;
+  return {
+    front: study.current ? study.current.front : '',
+    back: study.current ? study.current.back : '',
+    _id: study.current ? study.current._id : '',
+    showBack: study.showBack
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onViewBack: (fields) => {
+      dispatch(viewBack());
+    },
+    onSetQuality: (quality) => {
+      dispatch(setCardQuality(quality));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudyCard);

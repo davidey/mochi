@@ -1,16 +1,13 @@
 
 import { ADD_CARD, FETCH_CARDS, FETCH_CARDS_SUCCESS, FETCH_CARDS_TO_STUDY,
-        FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK, STUDY_NEXT } from './actions.js';
-import { createStore, combineReducers } from 'redux';
+        FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK, SET_CARD_QUALITY } from './actions.js';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import createLogger from 'redux-logger';
 
 const defaultStudyState = {
   list: [],
-  current: {
-    front: '',
-    back: ''
-  },
+  current: null,
   currentIndex: 0,
-  hasNext: true,
   showBack: false
 };
 
@@ -49,19 +46,18 @@ const studyReducer = (state = defaultStudyState, action) => {
       return Object.assign({}, state, {
         list: action.cards,
         current: action.cards[0],
-        currentIndex: 0,
-        hasNext: true
+        currentIndex: 0
       });
     case VIEW_BACK:
       return Object.assign({}, state, {
         showBack: true
       });
-    case STUDY_NEXT:
+    case SET_CARD_QUALITY:
       const nextIndex = state.currentIndex + 1;
+      const nextCard = state.list[nextIndex] ? state.list[nextIndex] : null;
       return Object.assign({}, state, {
-        current: state.list[nextIndex],
+        current: nextCard,
         currentIndex: nextIndex,
-        hasNext: state.list.length > nextIndex + 1,
         showBack: false
       });
     default:
@@ -74,8 +70,9 @@ const appReducer = combineReducers({
   study: studyReducer
 });
 
-export const store = createStore(appReducer);
+const logger = createLogger();
 
-store.subscribe(() => {
-  console.log(arguments, store.getState());
-});
+export const store = createStore(
+  appReducer,
+  applyMiddleware(logger)
+);

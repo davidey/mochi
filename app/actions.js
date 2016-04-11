@@ -11,10 +11,18 @@ export const FETCH_CARDS_TO_STUDY = 'FETCH_CARDS_TO_STUDY';
 export const FETCH_CARDS_TO_STUDY_SUCCESS = 'FETCH_CARDS_TO_STUDY_SUCCESS';
 
 export const VIEW_BACK = 'VIEW_BACK';
-export const STUDY_NEXT = 'STUDY_NEXT';
+export const SET_CARD_QUALITY = 'SET_CARD_QUALITY';
 
 export function addCard(card) {
-  db.post(card, function(err, result) {
+  const now = Date.now();
+  const doc = Object.assign({}, card, {
+    createdAt: now,
+    updatedAt: now,
+    dueAt: now,
+    lastInterval: 0,
+    lastFactor: 2.5
+  })
+  db.post(doc, function(err, result) {
     if (!err) {
       console.log('Added card to DB');
     } else {
@@ -74,8 +82,8 @@ export function viewBack() {
   };
 }
 
-export function studyNext() {
+export function setCardQuality(quality) {
   return {
-    type: STUDY_NEXT
+    type: SET_CARD_QUALITY
   };
 }

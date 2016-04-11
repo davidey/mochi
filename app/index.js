@@ -10,12 +10,12 @@ import { store } from './store.js';
 import App from './components/App';
 import PageAddCard from './components/PageAddCard';
 import PageStudy from './components/PageStudy';
-import CardList from './components/CardList';
+import PageList from './components/PageList';
 
 store.dispatch(fetchCards());
 
 const routes = <Route component={App}>
-  <Route path="/" component={CardList} />
+  <Route path="/" component={PageList} />
   <Route path="/add" component={PageAddCard} />
   <Route path="/study" component={PageStudy} />
 </Route>;
