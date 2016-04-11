@@ -82,8 +82,23 @@ export function viewBack() {
   };
 }
 
-export function setCardQuality(quality) {
+export function setCardQuality(quality, cardId) {
+  console.log('args', arguments);
+  db.get(cardId).then(function(card) {
+    return db.put(Object.assign({}, card, {
+      updatedAt: Date.now(),
+      dueAt: Date.now(),
+      lastFactor: 2.35
+    }));
+  }).then(function(response) {
+    // handle response
+  }).catch(function (err) {
+    console.log(err);
+  });
+
   return {
-    type: SET_CARD_QUALITY
+    type: SET_CARD_QUALITY,
+    quality: quality,
+    cardId: cardId
   };
 }
