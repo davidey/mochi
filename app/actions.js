@@ -1,8 +1,7 @@
-import PouchDB from 'pouchdb';
+import supermemo2 from 'supermemo2';
 
 import { store } from './store.js';
-
-var db = new PouchDB('cards');
+import { cardDb } from './databases';
 
 export const ADD_CARD = 'ADD_CARD';
 export const FETCH_CARDS = 'FETCH_CARDS';
@@ -22,7 +21,7 @@ export function addCard(card) {
     lastInterval: 0,
     lastFactor: 2.5
   })
-  db.post(doc, function(err, result) {
+  cardDb.post(doc, function(err, result) {
     if (!err) {
       console.log('Added card to DB');
     } else {
@@ -37,7 +36,7 @@ export function addCard(card) {
 }
 
 export function fetchCards() {
-  db.allDocs({include_docs: true, descending: true}, function(err, doc) {
+  cardDb.allDocs({include_docs: true, descending: true}, function(err, doc) {
     if (!err) {
       let cards = doc.rows.map(row => row.doc);
       store.dispatch(fetchCardsSuccess(cards));
@@ -57,7 +56,7 @@ export function fetchCardsSuccess(cards) {
 }
 
 export function fetchCardsToStudy() {
-  db.allDocs({include_docs: true, descending: true, limit: 5}, function(err, doc) {
+  cardDb.allDocs({include_docs: true, descending: true, limit: 5}, function(err, doc) {
     if (!err) {
       let cards = doc.rows.map(row => row.doc);
       store.dispatch(fetchCardsToStudySuccess(cards));
@@ -83,12 +82,14 @@ export function viewBack() {
 }
 
 export function setCardQuality(quality, cardId) {
-  console.log('args', arguments);
-  db.get(cardId).then(function(card) {
-    return db.put(Object.assign({}, card, {
+  cardDb.get(cardId).then(function(card) {
+    var result = supermemo2(quality, card.lastInterval, card.lastFactor);
+    console.log('supermemo result', result);
+    return cardDb.put(Object.assign({}, card, {
       updatedAt: Date.now(),
-      dueAt: Date.now(),
-      lastFactor: 2.35
+      dueAt: Date.now() + 86400 * result.schedule * 1000,
+      lastFactor: result.factor,
+      lastInterval: result.schedule
     }));
   }).then(function(response) {
     // handle response

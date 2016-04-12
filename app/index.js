@@ -6,12 +6,14 @@ import {Router, Route, hashHistory} from 'react-router';
 
 import { FETCH_CARDS, fetchCards } from './actions.js';
 import { store } from './store.js';
+import { cardDbReset } from './databases.js';
 
 import App from './components/App';
 import PageAddCard from './components/PageAddCard';
 import PageStudy from './components/PageStudy';
 import PageList from './components/PageList';
 
+// cardDbReset();
 store.dispatch(fetchCards());
 
 const routes = <Route component={App}>
