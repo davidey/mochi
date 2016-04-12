@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchCardsToStudy } from '../actions.js';
 
 import StudyCard from './StudyCard';
+import StudySessionInfo from './StudySessionInfo';
 
 const PageStudy = React.createClass({
   componentWillMount: function() {
@@ -12,14 +13,19 @@ const PageStudy = React.createClass({
   render () {
     const props = this.props;
 
+    if (!props.hasCard) {
+      return this.renderNoCards();
+    }
+
     return (
-      <div>
-        {props.hasCard ?
-            <StudyCard /> :
-            <p>No card to study!</p>
-        }
+      <div className="page-study">
+        <StudyCard />
+        <StudySessionInfo />
       </div>
     );
+  },
+  renderNoCards: function() {
+    return <p>No card to study!</p>;
   }
 });
 

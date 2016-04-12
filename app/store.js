@@ -8,6 +8,8 @@ const defaultStudyState = {
   list: [],
   current: null,
   currentIndex: 0,
+  cardsLeft: 0,
+  cardsRestudy: 0,
   showBack: false
 };
 
@@ -46,7 +48,8 @@ const studyReducer = (state = defaultStudyState, action) => {
       return Object.assign({}, state, {
         list: action.cards,
         current: action.cards[0],
-        currentIndex: 0
+        currentIndex: 0,
+        cardsLeft: action.cards.length
       });
     case VIEW_BACK:
       return Object.assign({}, state, {
