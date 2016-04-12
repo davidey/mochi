@@ -56,11 +56,16 @@ export function fetchCardsSuccess(cards) {
 }
 
 export function fetchCardsToStudy() {
-  cardDb.allDocs({include_docs: true, descending: true, limit: 5}, function(err, doc) {
-    if (!err) {
-      let cards = doc.rows.map(row => row.doc);
-      store.dispatch(fetchCardsToStudySuccess(cards));
+  function map(doc) {
+    if (doc.dueAt <= Date.now()) {
+      emit(doc);
     }
+  }
+  cardDb.query(map).then(function (result) {
+    let cards = result.rows.map(row => row.key);
+    store.dispatch(fetchCardsToStudySuccess(cards));
+  }).catch(function (err) {
+    console.log(err);
   });
 
   return {
