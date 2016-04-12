@@ -5,7 +5,7 @@ import { viewBack, setCardQuality } from '../actions.js';
 
 const StudyCard = React.createClass({
   handleSetQuality: function(quality) {
-    this.props.onSetQuality(quality, this.props._id);
+    this.props.onSetQuality(quality, this.props.card);
   },
   render () {
     const props = this.props;
@@ -21,21 +21,23 @@ const StudyCard = React.createClass({
   },
   renderFront: function () {
     const props = this.props;
+    const { card } = props;
 
     return (
       <div>
-        <p>{props.front}</p>
-        <p>{props.lastFactor}</p>
-        <p>{props.dueAt}</p>
+        <p>{card.front}</p>
+        <p>{card.lastFactor}</p>
+        <p>{card.dueAt}</p>
         <button onClick={this.props.onViewBack}>View back</button>
       </div>
     );
   },
   renderBack: function () {
     const props = this.props;
+    const { card } = props;
     return (
       <div>
-        <p>{props.back}</p>
+        <p>{card.back}</p>
         <ul>
           <li><button onClick={this.handleSetQuality.bind(this, 0)}>0</button></li>
           <li><button onClick={this.handleSetQuality.bind(this, 1)}>1</button></li>
@@ -51,10 +53,10 @@ const StudyCard = React.createClass({
 
 function mapStateToProps(state) {
   const { study } = state;
-  let props = Object.assign({}, study.current);
-  props.showBack = study.showBack;
-
-  return props;
+  return {
+    card: study.current,
+    showBack: study.showBack
+  }
 }
 
 function mapDispatchToProps(dispatch) {

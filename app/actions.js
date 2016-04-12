@@ -19,7 +19,8 @@ export function addCard(card) {
     updatedAt: now,
     dueAt: now,
     lastInterval: 0,
-    lastFactor: 2.5
+    lastFactor: 2.5,
+    shouldRestudy: false
   })
   cardDb.post(doc, function(err, result) {
     if (!err) {
@@ -86,17 +87,16 @@ export function viewBack() {
   };
 }
 
-export function setCardQuality(quality, cardId) {
-  cardDb.get(cardId).then(function(card) {
-    var result = supermemo2(quality, card.lastInterval, card.lastFactor);
-    console.log('supermemo result', result);
-    return cardDb.put(Object.assign({}, card, {
-      updatedAt: Date.now(),
-      dueAt: Date.now() + 86400 * result.schedule * 1000,
-      lastFactor: result.factor,
-      lastInterval: result.schedule
-    }));
-  }).then(function(response) {
+export function setCardQuality(quality, card) {
+  var result = supermemo2(quality, card.lastInterval, card.lastFactor);
+
+  cardDb.put(Object.assign({}, card, {
+    updatedAt: Date.now(),
+    dueAt: Date.now() + 86400 * result.schedule * 1000,
+    lastFactor: result.factor,
+    lastInterval: result.schedule,
+    shouldRestudy: result.isRepeatAgain
+  })).then(function(response) {
     // handle response
   }).catch(function (err) {
     console.log(err);
@@ -105,6 +105,7 @@ export function setCardQuality(quality, cardId) {
   return {
     type: SET_CARD_QUALITY,
     quality: quality,
-    cardId: cardId
+    cardId: card._id,
+    shouldRestudy: result.isRepeatAgain
   };
 }

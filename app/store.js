@@ -7,10 +7,8 @@ import createLogger from 'redux-logger';
 const defaultStudyState = {
   list: [],
   current: null,
-  currentIndex: 0,
   cardsLeft: 0,
-  cardsRestudy: 0,
-  showBack: false
+  cardsRestudy: 0
 };
 
 const defaultCardState = {
@@ -45,24 +43,45 @@ const studyReducer = (state = defaultStudyState, action) => {
     case FETCH_CARDS_TO_STUDY:
       return state;
     case FETCH_CARDS_TO_STUDY_SUCCESS:
-      return Object.assign({}, state, {
-        list: action.cards,
-        current: action.cards[0],
-        currentIndex: 0,
-        cardsLeft: action.cards.length
-      });
+      return ((state, action) => {
+        const list = action.cards.filter(function (card) {
+          return !!card.shouldRestudy === false;
+        });
+        const restudyList = action.cards.filter(function (card) {
+          return card.shouldRestudy === true;
+        });
+        const orderedList = restudyList.concat(list);
+        return Object.assign({}, state, {
+          list: orderedList,
+          current: orderedList[0],
+          cardsLeft: list.length,
+          cardsRestudy: restudyList.length
+        });
+      })(state, action);
     case VIEW_BACK:
       return Object.assign({}, state, {
         showBack: true
       });
     case SET_CARD_QUALITY:
-      const nextIndex = state.currentIndex + 1;
-      const nextCard = state.list[nextIndex] ? state.list[nextIndex] : null;
-      return Object.assign({}, state, {
-        current: nextCard,
-        currentIndex: nextIndex,
-        showBack: false
-      });
+      return ((state, action) => {
+        // Removes the studied card from the list
+        let list = state.list.filter(function (card) {
+          return card._id !== action.cardId;
+        });
+
+        if (action.shouldRestudy) {
+          const restudyList = state.list.filter(function (card) {
+                  return card._id === action.cardId;
+          });
+          list = list.concat(restudyList);
+        }
+        return Object.assign({}, state, {
+          list: list,
+          current: list[0] || null,
+          cardsLeft: list.length,
+          showBack: false
+        });
+      })(state, action);
     default:
       return state;
   }
