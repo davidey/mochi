@@ -4,6 +4,8 @@ import { ADD_CARD, FETCH_CARDS, FETCH_CARDS_SUCCESS, FETCH_CARDS_TO_STUDY,
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
 
+import CardCollection from './helpers/CardCollection';
+
 const defaultStudyState = {
   list: [],
   current: null,
@@ -44,13 +46,8 @@ const studyReducer = (state = defaultStudyState, action) => {
       return state;
     case FETCH_CARDS_TO_STUDY_SUCCESS:
       return ((state, action) => {
-        const list = action.cards.filter(function (card) {
-          return !!card.shouldRestudy === false;
-        });
-        const restudyList = action.cards.filter(function (card) {
-          return card.shouldRestudy === true;
-        });
-        const orderedList = restudyList.concat(list);
+        const cardCollection = new CardCollection(action.cards);
+        const orderedList = cardCollection.orderedList;
         return Object.assign({}, state, {
           list: orderedList,
           current: orderedList[0],
