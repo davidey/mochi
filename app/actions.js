@@ -89,14 +89,15 @@ export function viewBack() {
 
 export function setCardQuality(quality, card) {
   var result = supermemo2(quality, card.lastInterval, card.lastFactor);
-
-  cardDb.put(Object.assign({}, card, {
+  var updatedCard = Object.assign({}, card, {
     updatedAt: Date.now(),
     dueAt: Date.now() + 86400 * result.schedule * 1000,
     lastFactor: result.factor,
     lastInterval: result.schedule,
     shouldRestudy: result.isRepeatAgain
-  })).then(function(response) {
+  });
+
+  cardDb.put(updatedCard).then(function(response) {
     // handle response
   }).catch(function (err) {
     console.log(err);
@@ -105,7 +106,7 @@ export function setCardQuality(quality, card) {
   return {
     type: SET_CARD_QUALITY,
     quality: quality,
-    cardId: card._id,
+    card: updatedCard,
     shouldRestudy: result.isRepeatAgain
   };
 }
