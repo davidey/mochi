@@ -1,6 +1,5 @@
-
 import { ADD_CARD, FETCH_CARDS, FETCH_CARDS_SUCCESS, FETCH_CARDS_TO_STUDY,
-        FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK, SET_CARD_QUALITY } from './actions.js';
+        FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK, SET_CARD_QUALITY, SET_CARD_QUALITY_SUCCESS } from './actions.js';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
 
@@ -62,6 +61,8 @@ const studyReducer = (state = defaultStudyState, action) => {
         showBack: true
       });
     case SET_CARD_QUALITY:
+      return state;
+    case SET_CARD_QUALITY_SUCCESS:
       return ((state, action) => {
         const cardCollection = new CardCollection(state.list);
         const newList = cardCollection.updateStudiedCard(action.card)

@@ -1,5 +1,7 @@
 import PouchDB from 'pouchdb';
 
+PouchDB.debug.enable('pouchdb:api');
+
 export let cardDb = new PouchDB('cards');
 
 const now = Date.now();
