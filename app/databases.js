@@ -1,5 +1,7 @@
 import PouchDB from 'pouchdb';
 
+PouchDB.debug.enable('pouchdb:api');
+
 export let cardDb = new PouchDB('cards');
 
 const now = Date.now();
@@ -7,6 +9,7 @@ const templateCard = {
   createdAt: now,
   updatedAt: now,
   dueAt: now,
+  studiedAt: null,
   lastInterval: 0,
   lastFactor: 2.5
 };

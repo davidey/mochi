@@ -1,14 +1,16 @@
-
 import { ADD_CARD, FETCH_CARDS, FETCH_CARDS_SUCCESS, FETCH_CARDS_TO_STUDY,
-        FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK, SET_CARD_QUALITY } from './actions.js';
+        FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK, SET_CARD_QUALITY, SET_CARD_QUALITY_SUCCESS } from './actions.js';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
+
+import CardCollection from './helpers/CardCollection';
 
 const defaultStudyState = {
   list: [],
   current: null,
-  cardsLeft: 0,
-  cardsRestudy: 0
+  cardsReview: 0,
+  cardsRestudy: 0,
+  cardsNew: 0
 };
 
 const defaultCardState = {
@@ -44,18 +46,14 @@ const studyReducer = (state = defaultStudyState, action) => {
       return state;
     case FETCH_CARDS_TO_STUDY_SUCCESS:
       return ((state, action) => {
-        const list = action.cards.filter(function (card) {
-          return !!card.shouldRestudy === false;
-        });
-        const restudyList = action.cards.filter(function (card) {
-          return card.shouldRestudy === true;
-        });
-        const orderedList = restudyList.concat(list);
+        const cardCollection = new CardCollection(action.cards);
+        const currentCard = cardCollection.nextToStudy;
         return Object.assign({}, state, {
-          list: orderedList,
-          current: orderedList[0],
-          cardsLeft: list.length,
-          cardsRestudy: restudyList.length
+          list: action.cards,
+          current: currentCard,
+          cardsReview: cardCollection.reviewCards.length,
+          cardsRestudy: cardCollection.restudyCards.length,
+          cardsNew: cardCollection.newCards.length,
         });
       })(state, action);
     case VIEW_BACK:
@@ -63,22 +61,18 @@ const studyReducer = (state = defaultStudyState, action) => {
         showBack: true
       });
     case SET_CARD_QUALITY:
+      return state;
+    case SET_CARD_QUALITY_SUCCESS:
       return ((state, action) => {
-        // Removes the studied card from the list
-        let list = state.list.filter(function (card) {
-          return card._id !== action.cardId;
-        });
-
-        if (action.shouldRestudy) {
-          const restudyList = state.list.filter(function (card) {
-                  return card._id === action.cardId;
-          });
-          list = list.concat(restudyList);
-        }
+        const cardCollection = new CardCollection(state.list);
+        const newList = cardCollection.updateStudiedCard(action.card)
+        const currentCard = cardCollection.nextToStudy;
         return Object.assign({}, state, {
-          list: list,
-          current: list[0] || null,
-          cardsLeft: list.length,
+          list: newList,
+          current: currentCard,
+          cardsReview: cardCollection.reviewCards.length,
+          cardsRestudy: cardCollection.restudyCards.length,
+          cardsNew: cardCollection.newCards.length,
           showBack: false
         });
       })(state, action);

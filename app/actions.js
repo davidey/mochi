@@ -11,6 +11,7 @@ export const FETCH_CARDS_TO_STUDY_SUCCESS = 'FETCH_CARDS_TO_STUDY_SUCCESS';
 
 export const VIEW_BACK = 'VIEW_BACK';
 export const SET_CARD_QUALITY = 'SET_CARD_QUALITY';
+export const SET_CARD_QUALITY_SUCCESS = 'SET_CARD_QUALITY_SUCCESS';
 
 export function addCard(card) {
   const now = Date.now();
@@ -88,24 +89,36 @@ export function viewBack() {
 }
 
 export function setCardQuality(quality, card) {
-  var result = supermemo2(quality, card.lastInterval, card.lastFactor);
+  const result = supermemo2(quality, card.lastInterval, card.lastFactor);
 
-  cardDb.put(Object.assign({}, card, {
+  console.log('Supermemo2 result', result);
+
+  const updatedCard = Object.assign({}, card, {
     updatedAt: Date.now(),
     dueAt: Date.now() + 86400 * result.schedule * 1000,
+    studiedAt: Date.now(),
     lastFactor: result.factor,
     lastInterval: result.schedule,
     shouldRestudy: result.isRepeatAgain
-  })).then(function(response) {
-    // handle response
+  });
+  cardDb.put(updatedCard).then(function(response) {
+    const revisedCard =  Object.assign({}, updatedCard, {
+      _rev: response.rev
+    });
+    store.dispatch({
+      type: SET_CARD_QUALITY_SUCCESS,
+      quality: quality,
+      card: revisedCard,
+      shouldRestudy: result.isRepeatAgain
+    });
   }).catch(function (err) {
-    console.log(err);
+    console.error(err);
   });
 
   return {
     type: SET_CARD_QUALITY,
     quality: quality,
-    cardId: card._id,
+    card: updatedCard,
     shouldRestudy: result.isRepeatAgain
   };
 }
