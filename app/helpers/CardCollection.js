@@ -3,39 +3,63 @@ class CardCollection {
     this.cards = cards;
   }
 
-  get noRestudyCards() {
-    return this.cards.filter(function (card) {
-      return !!card.shouldRestudy === false;
+  get reviewCards() {
+    return this.cards.filter((card) => {
+      return (!!card.shouldRestudy === false && card.studiedAt > 0);
     });
   }
 
   get restudyCards() {
-    return this.cards.filter(function (card) {
+    return this.cards.filter((card) => {
       return card.shouldRestudy === true;
     });
   }
 
-  get orderedList() {
-    return this.restudyCards.concat(this.noRestudyCards);
+  get newCards() {
+    return this.cards.filter((card) => {
+      return card.studiedAt === null;
+    });
+  }
+
+  get newOrReviewCards() {
+    return this.cards.filter((card) => {
+      return (!!card.shouldRestudy === false);
+    });
   }
 
   get nextToStudy() {
-    return this.cards[Math.floor(Math.random()*this.cards.length)];
+    const restudyCards = this.restudyCards;
+    const newOrReviewCards = this.newOrReviewCards;
+
+    if (restudyCards.length > 0) {
+      return restudyCards[0];
+    } else if (newOrReviewCards.length > 0) {
+      return newOrReviewCards[Math.floor(Math.random() * newOrReviewCards.length)];
+    } else {
+      return null;
+    }
   }
 
   removeCard(cardToRemove) {
-    return this.cards.filter(function (card) {
+    return this.cards.filter((card) => {
       return card._id !== cardToRemove._id;
+    });
+  }
+
+  replaceCard(cardToReplace) {
+    return this.cards.map((card) => {
+      return (card._id === cardToReplace._id) ? cardToReplace : card;
     });
   }
 
   updateStudiedCard(card) {
     if (card.shouldRestudy) {
-      // Duplicate the card list
-      return this.cards.filter(card => true);
+      this.cards = this.replaceCard(card);
     } else {
-      return this.removeCard(card);
+      this.cards = this.removeCard(card);
     }
+
+    return this.cards;
   }
 }
 
