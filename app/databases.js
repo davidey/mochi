@@ -1,8 +1,23 @@
 import PouchDB from 'pouchdb';
 
 PouchDB.debug.enable('pouchdb:api');
+PouchDB.debug.enable('pouchdb:http');
 
-export let cardDb = new PouchDB('cards');
+export let cardDb;
+const remoteCardDb = new PouchDB('http://localhost:5984/cards');
+
+function initDb() {
+  cardDb = new PouchDB('cards');
+
+  cardDb.sync(remoteCardDb, {
+    live: true,
+    retry: true
+  }).on('error', function (err) {
+    console.err(err);
+  });
+}
+
+initDb();
 
 const now = Date.now();
 const templateCard = {
@@ -35,7 +50,7 @@ const cards = [
 
 export function cardDbReset() {
   cardDb.destroy().then(function (response) {
-    cardDb = new PouchDB('cards');
+    initDb();
     cardDb.bulkDocs(cards);
   }).catch(function (err) {
     console.log(err);
