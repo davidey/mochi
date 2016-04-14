@@ -12,8 +12,9 @@ const StudySessionInfo = React.createClass({
 
     return (
       <div>
-        <p>Cards left: {props.cardsLeft}</p>
+        <p>Cards to review: {props.cardsReview}</p>
         <p>Cards to restudy: {props.cardsRestudy}</p>
+        <p>Cards new: {props.cardsNew}</p>
       </div>
     );
   },
@@ -22,8 +23,9 @@ const StudySessionInfo = React.createClass({
 function mapStateToProps(state) {
   const { study } = state;
   return {
-    cardsLeft: study.cardsLeft,
-    cardsRestudy: study.cardsRestudy
+    cardsReview: study.cardsReview,
+    cardsRestudy: study.cardsRestudy,
+    cardsNew: study.cardsNew
   };
 }
 

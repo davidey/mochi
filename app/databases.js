@@ -7,6 +7,7 @@ const templateCard = {
   createdAt: now,
   updatedAt: now,
   dueAt: now,
+  studiedAt: null,
   lastInterval: 0,
   lastFactor: 2.5
 };

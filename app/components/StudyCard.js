@@ -28,6 +28,7 @@ const StudyCard = React.createClass({
         <p>{card.front}</p>
         <p>{card.lastFactor}</p>
         <p>{card.dueAt}</p>
+        <pre>{JSON.stringify(card, null, 2)}</pre>
         <button onClick={this.props.onViewBack}>View back</button>
       </div>
     );

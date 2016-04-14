@@ -89,9 +89,13 @@ export function viewBack() {
 
 export function setCardQuality(quality, card) {
   var result = supermemo2(quality, card.lastInterval, card.lastFactor);
+
+  console.log('Supermemo2 result', result);
+  
   var updatedCard = Object.assign({}, card, {
     updatedAt: Date.now(),
     dueAt: Date.now() + 86400 * result.schedule * 1000,
+    studiedAt: Date.now(),
     lastFactor: result.factor,
     lastInterval: result.schedule,
     shouldRestudy: result.isRepeatAgain
