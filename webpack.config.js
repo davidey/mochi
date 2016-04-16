@@ -9,7 +9,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      exclude: /node_modules(?!\/supermemo2)/,
+      exclude: /node_modules/,
       loader: 'react-hot!babel'
     }]
   },
