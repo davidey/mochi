@@ -1,0 +1,17 @@
+version: '2'
+services:
+  mochi:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: mochi
+    ports:
+     - "8081:8080"
+    command: /usr/local/bin/webpack-dev-server --host 0.0.0.0
+  couchdb:
+    build:
+      context: .
+      dockerfile: Dockerfile.couchdb
+    image: couchdb
+    ports:
+     - "5985:5984"
