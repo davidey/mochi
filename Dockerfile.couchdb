@@ -1,0 +1,2 @@
+FROM klaemo/couchdb:latest
+MAINTAINER Davide Petrillo
