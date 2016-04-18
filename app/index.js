@@ -7,6 +7,7 @@ import {Router, Route, hashHistory} from 'react-router';
 import { FETCH_CARDS, fetchCards } from './actions.js';
 import { store } from './store.js';
 import { cardDbReset } from './databases.js';
+import { OFFLINE_ENABLED } from './config.js';
 
 import App from './components/App';
 import PageAddCard from './components/PageAddCard';
@@ -28,3 +29,12 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('content')
 );
+
+if (OFFLINE_ENABLED) {
+  UpUp.start({
+    'content-url': '/offline.html',
+    'assets': [
+      '/bundle.js'
+    ]
+  });
+}
