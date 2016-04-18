@@ -1,10 +1,14 @@
 import PouchDB from 'pouchdb';
 
+import { COUCHDB_IP, COUCHDB_PORT} from './env.js';
+
+console.log(COUCHDB_IP, COUCHDB_PORT);
+
 PouchDB.debug.enable('pouchdb:api');
 PouchDB.debug.enable('pouchdb:http');
 
 export let cardDb;
-const remoteCardDb = new PouchDB('http://localhost:5984/cards');
+const remoteCardDb = new PouchDB(`http://${COUCHDB_IP}:${COUCHDB_PORT}/cards`);
 
 function initDb() {
   cardDb = new PouchDB('cards');
