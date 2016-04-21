@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchCardsToStudy } from '../actions.js';
+import { fetchCardsToStudy } from '../studyActions.js';
 
 import StudyCover from './StudyCover';
 import StudyCard from './StudyCard';

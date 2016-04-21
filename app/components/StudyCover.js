@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { startStudy } from '../studyActions';
 
 const StudyCover = React.createClass({
   getInitialState: function() {
-    const { fields } = this.props || 0;
+    const { fields } = this.props;
     return {
       fields
     };
@@ -14,23 +17,48 @@ const StudyCover = React.createClass({
     });
   },
   handleChangeNewCards: function(e) {
-    const fields = extend(this.state.fields, {
-      newCards: e.target.value
+    const fields = Object.assign({}, this.state.fields, {
+      newCards: parseInt(e.target.value)
     });
     this.setState({
       fields: fields
     });
   },
+  handleStart: function(e) {
+    this.props.onStart()
+  },
   render () {
     const { fields } = this.state;
+    const props = this.props;
+console.log(fields);
     return (
       <div>
-        <p>You have 4 reviews for today</p>
-        <p>Add <input type="number" value="{fields.}" onChange={this.handleChangeNewCards}/> new cards</p>
-        <button>Start</button>
+        <p>You have {props.reviewCards} reviews for today</p>
+        <p>Add <input type="number" value={fields.newCards} onChange={this.handleChangeNewCards}/> of&nbsp;
+            {props.fields.newCards} new cards</p>
+        <button onClick={this.handleStart}>Start</button>
       </div>
     )
   }
 });
 
-export default StudyCover;
+
+function mapStateToProps(state) {
+  const { study } = state;
+  return {
+    fields: {
+      newCards: study.cardsNew
+    },
+    reviewCards: study.cardsReview + study.cardsRestudy
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStart: (newCards) => {
+      dispatch(startStudy(newCards));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudyCover);

@@ -1,8 +1,9 @@
-import { ADD_CARD, FETCH_CARDS, FETCH_CARDS_SUCCESS, FETCH_CARDS_TO_STUDY,
-        FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK, SET_CARD_QUALITY, SET_CARD_QUALITY_SUCCESS } from './actions.js';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
 
+import { ADD_CARD, FETCH_CARDS, FETCH_CARDS_SUCCESS } from './cardActions.js';
+import { START_STUDY, FETCH_CARDS_TO_STUDY, FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK,
+          SET_CARD_QUALITY, SET_CARD_QUALITY_SUCCESS } from './studyActions.js';
 import CardCollection from './helpers/CardCollection';
 
 const defaultStudyState = {
@@ -10,7 +11,8 @@ const defaultStudyState = {
   current: null,
   cardsReview: 0,
   cardsRestudy: 0,
-  cardsNew: 0
+  cardsNew: 0,
+  studying: false
 };
 
 const defaultCardState = {
@@ -47,13 +49,26 @@ const studyReducer = (state = defaultStudyState, action) => {
     case FETCH_CARDS_TO_STUDY_SUCCESS:
       return ((state, action) => {
         const cardCollection = new CardCollection(action.cards);
-        const currentCard = cardCollection.nextToStudy;
         return Object.assign({}, state, {
           list: action.cards,
+          cardsReview: cardCollection.reviewCards.length,
+          cardsRestudy: cardCollection.restudyCards.length,
+          cardsNew: cardCollection.newCards.length,
+        });
+      })(state, action);
+    case START_STUDY:
+      return ((state, action) => {
+        const cardCollection = new CardCollection(state.list);
+        const list = cardCollection.reduceNewCardsTo(action.newCards);
+        const currentCard = cardCollection.nextToStudy;
+        return Object.assign({}, state, {
+          list: list,
           current: currentCard,
           cardsReview: cardCollection.reviewCards.length,
           cardsRestudy: cardCollection.restudyCards.length,
           cardsNew: cardCollection.newCards.length,
+          showBack: false,
+          studying: true
         });
       })(state, action);
     case VIEW_BACK:

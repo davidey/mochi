@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FETCH_CARDS, fetchCards } from '../actions.js';
+import { FETCH_CARDS, fetchCards } from '../cardActions.js';
 import { store } from '../store.js';
 
 var CardList = React.createClass({

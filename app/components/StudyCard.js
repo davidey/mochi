@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { viewBack, setCardQuality } from '../actions.js';
+import { viewBack, setCardQuality } from '../studyActions.js';
 
 const StudyCard = React.createClass({
   handleSetQuality: function(quality) {

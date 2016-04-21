@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import {Router, Route, hashHistory} from 'react-router';
 
-import { FETCH_CARDS, fetchCards } from './actions.js';
+import { FETCH_CARDS, fetchCards } from './cardActions.js';
 import { store } from './store.js';
 import { cardDbReset } from './databases.js';
 import { OFFLINE_ENABLED } from './config.js';
