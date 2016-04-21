@@ -40,6 +40,14 @@ class CardCollection {
     }
   }
 
+  reduceNewCardsTo(number) {
+    let i = 0;
+    this.cards =  this.cards.filter((card) => {
+      return (card.studiedAt === null && i++ < number);
+    });
+    return this.cards;
+  }
+
   removeCard(cardToRemove) {
     return this.cards.filter((card) => {
       return card._id !== cardToRemove._id;

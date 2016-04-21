@@ -84,6 +84,28 @@ describe('nextToStudy', function () {
   })
 });
 
+describe('reduceNewCardsTo', function () {
+  const cardCollection = new CardCollection(cards.concat([
+    Object.assign({}, templateCard, {
+      _id: 5,
+      front: 'Card 1 Front',
+      back: 'Card 1 Back',
+      studiedAt: null
+    }),
+    Object.assign({}, templateCard, {
+      _id: 6,
+      front: 'Card 1 Front',
+      back: 'Card 1 Back',
+      studiedAt: null
+    })
+  ]));
+
+  it('should reduce the number of new cards in the list to the given one', function () {
+    cardCollection.reduceNewCardsTo(2);
+    expect(cardCollection.newCards.length).to.equal(2);
+  });
+});
+
 describe('removeCard', function () {
   const cardCollection = new CardCollection(cards);
   const card = cards[1];
@@ -114,7 +136,7 @@ describe('updateStudiedCard', function () {
   it('should remove the card if it\'s not a restudy one', function () {
     const cardCollection = new CardCollection(cards);
     const list = cardCollection.updateStudiedCard(cards[0]);
-    
+
     expect(list.length).to.equal(3);
   });
 
