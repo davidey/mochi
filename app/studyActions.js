@@ -3,9 +3,8 @@ import supermemo2 from 'supermemo2';
 import { store } from './store.js';
 import { cardDb } from './databases';
 
-export const ADD_CARD = 'ADD_CARD';
-export const FETCH_CARDS = 'FETCH_CARDS';
-export const FETCH_CARDS_SUCCESS = 'FETCH_CARDS_SUCCESS';
+export const START_STUDY = 'START_STUDY';
+
 export const FETCH_CARDS_TO_STUDY = 'FETCH_CARDS_TO_STUDY';
 export const FETCH_CARDS_TO_STUDY_SUCCESS = 'FETCH_CARDS_TO_STUDY_SUCCESS';
 
@@ -13,47 +12,10 @@ export const VIEW_BACK = 'VIEW_BACK';
 export const SET_CARD_QUALITY = 'SET_CARD_QUALITY';
 export const SET_CARD_QUALITY_SUCCESS = 'SET_CARD_QUALITY_SUCCESS';
 
-export function addCard(card) {
-  const now = Date.now();
-  const doc = Object.assign({}, card, {
-    createdAt: now,
-    updatedAt: now,
-    dueAt: now,
-    lastInterval: 0,
-    lastFactor: 2.5,
-    shouldRestudy: false
-  })
-  cardDb.post(doc, function(err, result) {
-    if (!err) {
-      console.log('Added card to DB');
-    } else {
-      console.log(err);
-    }
-  });
-
+export function startStudy(newCards) {
   return {
-    type: ADD_CARD,
-    card
-  };
-}
-
-export function fetchCards() {
-  cardDb.allDocs({include_docs: true, descending: true}, function(err, doc) {
-    if (!err) {
-      let cards = doc.rows.map(row => row.doc);
-      store.dispatch(fetchCardsSuccess(cards));
-    }
-  });
-
-  return {
-    type: FETCH_CARDS
-  };
-}
-
-export function fetchCardsSuccess(cards) {
-  return {
-    type: FETCH_CARDS_SUCCESS,
-    cards: cards
+    type: START_STUDY,
+    newCards: newCards
   };
 }
 
