@@ -12,6 +12,7 @@ export function addCard(card) {
     updatedAt: now,
     dueAt: now,
     lastInterval: 0,
+    lastInterval: null,
     lastFactor: 2.5,
     shouldRestudy: false
   })
