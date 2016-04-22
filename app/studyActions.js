@@ -15,7 +15,7 @@ export const SET_CARD_QUALITY_SUCCESS = 'SET_CARD_QUALITY_SUCCESS';
 export function startStudy(newCards) {
   return {
     type: START_STUDY,
-    newCards: newCards
+    newCards: newCards || 0
   };
 }
 
