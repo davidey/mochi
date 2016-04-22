@@ -39,8 +39,11 @@ PageStudy.contextTypes = {
 };
 
 function mapStateToProps(state) {
+  const { study } = state;
+
   return {
-    hasCard: state.study.current !== null
+    hasCard: study.current !== null,
+    studying: study.studying
   }
 }
 export default connect(mapStateToProps)(PageStudy);
