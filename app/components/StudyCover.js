@@ -25,12 +25,12 @@ const StudyCover = React.createClass({
     });
   },
   handleStart: function(e) {
-    this.props.onStart()
+    this.props.onStart(this.state.fields.newCards);
   },
   render () {
     const { fields } = this.state;
     const props = this.props;
-console.log(fields);
+
     return (
       <div>
         <p>You have {props.reviewCards} reviews for today</p>
