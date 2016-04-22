@@ -11,10 +11,10 @@ export function addCard(card) {
     createdAt: now,
     updatedAt: now,
     dueAt: now,
-    lastInterval: 0,
     lastInterval: null,
     lastFactor: 2.5,
-    shouldRestudy: false
+    shouldRestudy: false,
+    studiedAt: null
   })
   cardDb.post(doc, function(err, result) {
     if (!err) {

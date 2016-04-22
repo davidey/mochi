@@ -82,6 +82,19 @@ describe('nextToStudy', function () {
 
     expect(card).to.equal(null);
   })
+
+  it('should return the only element when the list contains just one card', function () {
+    const cardCollection = new CardCollection([
+      Object.assign({}, templateCard, {
+        _id: 1,
+        front: 'Card 1 Front',
+        back: 'Card 1 Back',
+      }),
+    ]);
+    const card = cardCollection.nextToStudy;
+
+    expect(card).to.not.equal(null);
+  })
 });
 
 describe('reduceNewCardsTo', function () {

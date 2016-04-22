@@ -29,7 +29,7 @@ export function fetchCardsToStudy() {
     let cards = result.rows.map(row => row.key);
     store.dispatch(fetchCardsToStudySuccess(cards));
   }).catch(function (err) {
-    console.log(err);
+    console.err(err);
   });
 
   return {
