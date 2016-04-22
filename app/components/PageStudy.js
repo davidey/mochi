@@ -29,15 +29,6 @@ const PageStudy = React.createClass({
       </div>
     );
   },
-  renderStudyCover: function() {
-    return (
-      <div>
-        <p>You have 4 reviews for today</p>
-        <p>Add <input type="number" value="3" /> new cards</p>
-        <button>Start</button>
-      </div>
-    )
-  },
   renderNoCards: function() {
     return <p>No card to study!</p>;
   }
