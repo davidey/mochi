@@ -43,7 +43,7 @@ class CardCollection {
   reduceNewCardsTo(number) {
     let i = 0;
     this.cards =  this.cards.filter((card) => {
-      return (card.studiedAt === null && i++ < number);
+      return (card.studiedAt !== null || i++ < number);
     });
     return this.cards;
   }

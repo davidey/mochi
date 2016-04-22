@@ -100,9 +100,15 @@ describe('reduceNewCardsTo', function () {
     })
   ]));
 
+  cardCollection.reduceNewCardsTo(2);
+
   it('should reduce the number of new cards in the list to the given one', function () {
-    cardCollection.reduceNewCardsTo(2);
     expect(cardCollection.newCards.length).to.equal(2);
+  });
+
+  it('should not remove the review or restudy cards', function () {
+    expect(cardCollection.reviewCards.length).to.equal(2);
+    expect(cardCollection.restudyCards.length).to.equal(1);
   });
 });
 
