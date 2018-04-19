@@ -1,7 +1,7 @@
 import supermemo2 from 'supermemo2';
 
 import { store } from './store.js';
-import { cardDb } from './databases';
+import { db } from './databases';
 
 export const START_STUDY = 'START_STUDY';
 
@@ -20,17 +20,16 @@ export function startStudy(newCards) {
 }
 
 export function fetchCardsToStudy() {
-  function map(doc) {
-    if (doc.dueAt <= Date.now()) {
-      emit(doc);
-    }
-  }
-  cardDb.query(map).then(function (result) {
-    let cards = result.rows.map(row => row.key);
-    store.dispatch(fetchCardsToStudySuccess(cards));
-  }).catch(function (err) {
-    console.err(err);
-  });
+  db.collection('cards').where('dueAt', '<=', Date.now()).get()
+    .then(querySnapshot => {
+      let cards = [];
+      querySnapshot.forEach((doc) => {
+        console.log('Doc', doc);
+        cards.push(doc.data());
+      });
+      console.log('Cards to study', cards);
+      store.dispatch(fetchCardsToStudySuccess(cards));
+    });
 
   return {
     type: FETCH_CARDS_TO_STUDY
@@ -61,21 +60,21 @@ export function setCardQuality(quality, card) {
     studiedAt: Date.now(),
     lastFactor: result.factor,
     lastInterval: result.schedule,
-    shouldRestudy: result.isRepeatAgain
+    shouldRestudy: result.isRepeatAgain,
   });
-  cardDb.put(updatedCard).then(function(response) {
-    const revisedCard =  Object.assign({}, updatedCard, {
-      _rev: response.rev
+  
+  db.collection('cards').doc(card._id).set(updatedCard, {merge: true})
+    .then(() => {
+      store.dispatch({
+        type: SET_CARD_QUALITY_SUCCESS,
+        quality: quality,
+        card: updatedCard,
+        shouldRestudy: result.isRepeatAgain
+      });
+    })
+    .catch(error => {
+      console.error(error);
     });
-    store.dispatch({
-      type: SET_CARD_QUALITY_SUCCESS,
-      quality: quality,
-      card: revisedCard,
-      shouldRestudy: result.isRepeatAgain
-    });
-  }).catch(function (err) {
-    console.error(err);
-  });
 
   return {
     type: SET_CARD_QUALITY,

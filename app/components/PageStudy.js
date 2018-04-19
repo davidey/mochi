@@ -9,6 +9,7 @@ import StudySessionInfo from './StudySessionInfo';
 
 const PageStudy = React.createClass({
   componentWillMount: function() {
+    console.log('Store', this.context.store);
     this.context.store.dispatch(fetchCardsToStudy());
   },
   render () {

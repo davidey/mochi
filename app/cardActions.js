@@ -1,5 +1,5 @@
 import { store } from './store.js';
-import { cardDb } from './databases';
+import { db } from './databases';
 
 export const ADD_CARD = 'ADD_CARD';
 export const FETCH_CARDS = 'FETCH_CARDS';
@@ -15,14 +15,15 @@ export function addCard(card) {
     lastFactor: 2.5,
     shouldRestudy: false,
     studiedAt: null
-  })
-  cardDb.post(doc, function(err, result) {
-    if (!err) {
-      console.log('Added card to DB');
-    } else {
-      console.log(err);
-    }
   });
+  
+  db.collection('cards').add(doc)
+    .then(docRef => {
+      console.log('Added card to DB', docRef.id);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
   return {
     type: ADD_CARD,
@@ -31,11 +32,12 @@ export function addCard(card) {
 }
 
 export function fetchCards() {
-  cardDb.allDocs({include_docs: true, descending: true}, function(err, doc) {
-    if (!err) {
-      let cards = doc.rows.map(row => row.doc);
-      store.dispatch(fetchCardsSuccess(cards));
-    }
+  db.collection('cards').get().then((querySnapshot) => {
+    let cards = [];
+    querySnapshot.forEach((doc) => {
+      cards.push(doc.data());
+    });
+    store.dispatch(fetchCardsSuccess(cards));
   });
 
   return {
