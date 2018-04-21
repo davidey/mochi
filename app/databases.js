@@ -1,10 +1,3 @@
-import PouchDB from 'pouchdb';
-
-import { COUCHDB_IP, COUCHDB_PORT} from './env.js';
-
-console.log(COUCHDB_IP, COUCHDB_PORT);
-
-
 import firebase from 'firebase';
 import 'firebase/firestore';
 import uuid from 'uuid/v1';
@@ -20,27 +13,6 @@ var config = {
 firebase.initializeApp(config);
 
 export let db = firebase.firestore();
-
-console.log('db', db);
-
-PouchDB.debug.enable('pouchdb:api');
-PouchDB.debug.enable('pouchdb:http');
-
-export let cardDb;
-const remoteCardDb = new PouchDB(`http://${COUCHDB_IP}:${COUCHDB_PORT}/cards`);
-
-function initDb() {
-  cardDb = new PouchDB('cards');
-
-  cardDb.sync(remoteCardDb, {
-    live: true,
-    retry: true
-  }).on('error', function (err) {
-    console.err(err);
-  });
-}
-
-initDb();
 
 const now = Date.now();
 const templateCard = {
