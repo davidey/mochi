@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
 
 import { ADD_CARD, FETCH_CARDS, FETCH_CARDS_SUCCESS } from './cardActions.js';
+import { ADD_ASSET, FETCH_ASSETS, FETCH_ASSETS_SUCCESS } from './assetActions.js';
 import { START_STUDY, FETCH_CARDS_TO_STUDY, FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK,
           SET_CARD_QUALITY, SET_CARD_QUALITY_SUCCESS } from './studyActions.js';
 import CardCollection from './helpers/CardCollection';
@@ -23,6 +24,10 @@ const defaultCardState = {
   }
 };
 
+const defaultAssetState = {
+  list: []
+};
+
 const cardReducer = (state = defaultCardState, action) => {
   switch(action.type) {
     case ADD_CARD:
@@ -36,6 +41,23 @@ const cardReducer = (state = defaultCardState, action) => {
       return {
         list: action.cards,
         current: state.current
+      };
+    default:
+      return state;
+  }
+};
+
+const assetReducer = (state = defaultAssetState, action) => {
+  switch(action.type) {
+    case ADD_ASSET:
+      return {
+        list: state.list.concat(action.asset),
+      };
+    case FETCH_ASSETS:
+      return state;
+    case FETCH_ASSETS_SUCCESS:
+      return {
+        list: action.assets
       };
     default:
       return state;
@@ -98,6 +120,7 @@ const studyReducer = (state = defaultStudyState, action) => {
 
 const appReducer = combineReducers({
   cards: cardReducer,
+  assets: assetReducer,
   study: studyReducer
 });
 

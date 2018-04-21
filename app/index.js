@@ -11,6 +11,7 @@ import { OFFLINE_ENABLED } from './config.js';
 
 import App from './components/App';
 import PageAddCard from './components/PageAddCard';
+import PageAddAsset from './components/PageAddAsset';
 import PageStudy from './components/PageStudy';
 import PageList from './components/PageList';
 
@@ -19,7 +20,8 @@ store.dispatch(fetchCards());
 
 const routes = <Route component={App}>
   <Route path="/" component={PageList} />
-  <Route path="/add" component={PageAddCard} />
+  <Route path="/add-card" component={PageAddCard} />
+  <Route path="/add-asset" component={PageAddAsset} />
   <Route path="/study" component={PageStudy} />
 </Route>;
 
