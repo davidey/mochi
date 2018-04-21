@@ -30,12 +30,12 @@ export function addAsset(asset) {
 }
 
 export function fetchAssets() {
-  db.collection('cards').get().then((querySnapshot) => {
-    let cards = [];
+  db.collection('assets').get().then((querySnapshot) => {
+    let assets = [];
     querySnapshot.forEach((doc) => {
-      cards.push(doc.data());
+      assets.push(doc.data());
     });
-    store.dispatch(fetchAssetsSuccess(cards));
+    store.dispatch(fetchAssetsSuccess(assets));
   });
 
   return {
@@ -43,9 +43,9 @@ export function fetchAssets() {
   };
 }
 
-export function fetchAssetsSuccess(cards) {
+export function fetchAssetsSuccess(assets) {
   return {
     type: FETCH_ASSETS_SUCCESS,
-    cards: cards
+    assets: assets
   };
 }
