@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ADD_CARD, addCard } from '../actions.js';
+import { ADD_CARD, addCard } from '../cardActions.js';
 import { store } from '../store.js';
 
 import CardForm from './CardForm';

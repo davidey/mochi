@@ -7,7 +7,7 @@ const templateCard = {
   updatedAt: 1460486626224,
   dueAt: 1460486626224,
   studiedAt: 1460486626224,
-  lastInterval: 0,
+  lastInterval: null,
   lastFactor: 2.5,
   shouldRestudy: false
 };
@@ -82,6 +82,47 @@ describe('nextToStudy', function () {
 
     expect(card).to.equal(null);
   })
+
+  it('should return the only element when the list contains just one card', function () {
+    const cardCollection = new CardCollection([
+      Object.assign({}, templateCard, {
+        _id: 1,
+        front: 'Card 1 Front',
+        back: 'Card 1 Back',
+      }),
+    ]);
+    const card = cardCollection.nextToStudy;
+
+    expect(card).to.not.equal(null);
+  })
+});
+
+describe('reduceNewCardsTo', function () {
+  const cardCollection = new CardCollection(cards.concat([
+    Object.assign({}, templateCard, {
+      _id: 5,
+      front: 'Card 1 Front',
+      back: 'Card 1 Back',
+      studiedAt: null
+    }),
+    Object.assign({}, templateCard, {
+      _id: 6,
+      front: 'Card 1 Front',
+      back: 'Card 1 Back',
+      studiedAt: null
+    })
+  ]));
+
+  cardCollection.reduceNewCardsTo(2);
+
+  it('should reduce the number of new cards in the list to the given one', function () {
+    expect(cardCollection.newCards.length).to.equal(2);
+  });
+
+  it('should not remove the review or restudy cards', function () {
+    expect(cardCollection.reviewCards.length).to.equal(2);
+    expect(cardCollection.restudyCards.length).to.equal(1);
+  });
 });
 
 describe('removeCard', function () {
@@ -114,7 +155,7 @@ describe('updateStudiedCard', function () {
   it('should remove the card if it\'s not a restudy one', function () {
     const cardCollection = new CardCollection(cards);
     const list = cardCollection.updateStudiedCard(cards[0]);
-    
+
     expect(list.length).to.equal(3);
   });
 

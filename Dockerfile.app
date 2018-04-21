@@ -15,6 +15,6 @@ COPY . /usr/src/app/
 
 RUN cp -a /tmp/node_modules /usr/src/app/
 
-# RUN add-cors-to-couchdb http://127.0.0.1:5985
+RUN add-cors-to-couchdb http://$COUCHDB_IP:$COUCHDB_PORT
 
 EXPOSE 8080
