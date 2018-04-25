@@ -13,6 +13,7 @@ var config = {
 firebase.initializeApp(config);
 
 export let db = firebase.firestore();
+db.settings({timestampsInSnapshots: true});
 
 const now = Date.now();
 const templateCard = {

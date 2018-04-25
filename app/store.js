@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
 
 import { ADD_CARD, FETCH_CARDS, FETCH_CARDS_SUCCESS } from './cardActions.js';
-import { ADD_ASSET, FETCH_ASSETS, FETCH_ASSETS_SUCCESS } from './assetActions.js';
+import { ADD_ASSET, SELECT_ASSET, FETCH_ASSETS, FETCH_ASSETS_SUCCESS } from './assetActions.js';
 import { START_STUDY, FETCH_CARDS_TO_STUDY, FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_BACK,
           SET_CARD_QUALITY, SET_CARD_QUALITY_SUCCESS } from './studyActions.js';
 import CardCollection from './helpers/CardCollection';
@@ -20,12 +20,14 @@ const defaultCardState = {
   list: [],
   current: {
     front: '',
+    reading: '',
     back: ''
   }
 };
 
 const defaultAssetState = {
-  list: []
+  list: [],
+  current: ''
 };
 
 const cardReducer = (state = defaultCardState, action) => {
@@ -52,12 +54,18 @@ const assetReducer = (state = defaultAssetState, action) => {
     case ADD_ASSET:
       return {
         list: state.list.concat(action.asset),
+        current: ''
       };
+    case SELECT_ASSET:
+      return Object.assign({}, state, {
+        current: state.list.find(asset => asset._id === action.assetId)
+      });
     case FETCH_ASSETS:
       return state;
     case FETCH_ASSETS_SUCCESS:
       return {
-        list: action.assets
+        list: action.assets,
+        current: ''
       };
     default:
       return state;

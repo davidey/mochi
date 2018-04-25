@@ -14,6 +14,7 @@ import App from './components/App';
 import PageAddCard from './components/PageAddCard';
 import PageAddAsset from './components/PageAddAsset';
 import PageListAssets from './components/PageListAssets';
+import PageStudyAsset from './components/PageStudyAsset';
 import PageStudy from './components/PageStudy';
 import PageList from './components/PageList';
 
@@ -24,8 +25,9 @@ store.dispatch(fetchAssets());
 const routes = <Route component={App}>
   <Route path="/" component={PageList} />
   <Route path="/add-card" component={PageAddCard} />
-  <Route path="/list-assets" component={PageListAssets} />
-  <Route path="/add-asset" component={PageAddAsset} />
+  <Route path="/assets" component={PageListAssets} />
+  <Route path="/assets/new" component={PageAddAsset} />
+  <Route path="/assets/:assetId" component={PageStudyAsset} />
   <Route path="/study" component={PageStudy} />
 </Route>;
 

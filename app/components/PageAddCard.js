@@ -6,23 +6,13 @@ import { store } from '../store.js';
 
 import CardForm from './CardForm';
 
-function mapStateToProps(state) {
-  return {
-    fields: {
-      front: state.cards.current.front,
-      back: state.cards.current.back
-    }
-  };
-}
+var PageAddCard = React.createClass({
+  render: function() {
+    return (
+      <CardForm />
+    );
+  }
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onSubmit: (fields) => {
-      dispatch(addCard(fields));
-    }
-  };
-}
-
-const PageAddCard = connect(mapStateToProps, mapDispatchToProps)(CardForm);
 
 export default PageAddCard;

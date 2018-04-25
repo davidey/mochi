@@ -4,6 +4,7 @@ import { db } from './databases';
 import uuid from 'uuid/v1';
 
 export const ADD_ASSET = 'ADD_ASSET';
+export const SELECT_ASSET = 'SELECT_ASSET';
 export const FETCH_ASSETS = 'FETCH_ASSETS';
 export const FETCH_ASSETS_SUCCESS = 'FETCH_ASSETS_SUCCESS';
 
@@ -26,6 +27,13 @@ export function addAsset(asset) {
   return {
     type: ADD_ASSET,
     asset
+  };
+}
+
+export function selectAsset(assetId) {
+  return {
+    type: SELECT_ASSET,
+    assetId: assetId
   };
 }
 
