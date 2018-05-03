@@ -11,11 +11,11 @@ const StudySessionInfo = React.createClass({
     const props = this.props;
 
     return (
-      <div>
-        <p>Cards to review: {props.cardsReview}</p>
-        <p>Cards to restudy: {props.cardsRestudy}</p>
-        <p>Cards new: {props.cardsNew}</p>
-      </div>
+      <ul className="study-session-info">
+        <li>Review: {props.cardsReview}</li>
+        <li>Restudy: {props.cardsRestudy}</li>
+        <li>New: {props.cardsNew}</li>
+      </ul>
     );
   },
 });

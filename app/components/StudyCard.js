@@ -11,12 +11,9 @@ const StudyCard = React.createClass({
     const props = this.props;
 
     return (
-      <div className="page-study">
-        {!props.showBack ?
+      !props.showBack ?
           this.renderFront() :
           this.renderBack()
-        }
-      </div>
     );
   },
   renderFront: function () {
@@ -24,12 +21,11 @@ const StudyCard = React.createClass({
     const { card } = props;
 
     return (
-      <div>
-        <p>{card.front}</p>
-        <p>{card.lastFactor}</p>
-        <p>{card.dueAt}</p>
-        <pre>{JSON.stringify(card, null, 2)}</pre>
-        <button onClick={this.props.onViewBack}>View back</button>
+      <div className="card card-front">
+        <div className="card-content"><p>{card.front}</p></div>
+        <footer>
+          <button className="card-view-back-btn" onClick={this.props.onViewBack}>View back</button>
+        </footer>
       </div>
     );
   },
@@ -37,16 +33,18 @@ const StudyCard = React.createClass({
     const props = this.props;
     const { card } = props;
     return (
-      <div>
-        <p>{card.back}</p>
-        <ul>
-          <li><button onClick={this.handleSetQuality.bind(this, 0)}>0</button></li>
-          <li><button onClick={this.handleSetQuality.bind(this, 1)}>1</button></li>
-          <li><button onClick={this.handleSetQuality.bind(this, 2)}>2</button></li>
-          <li><button onClick={this.handleSetQuality.bind(this, 3)}>3</button></li>
-          <li><button onClick={this.handleSetQuality.bind(this, 4)}>4</button></li>
-          <li><button onClick={this.handleSetQuality.bind(this, 5)}>5</button></li>
-        </ul>
+      <div className="card card-back">
+        <div className="card-content"><p>{card.back}</p></div>
+        <footer>
+          <ul>
+            <li className="card-set-quality-btn"><button onClick={this.handleSetQuality.bind(this, 0)}>0</button></li>
+            <li className="card-set-quality-btn"><button onClick={this.handleSetQuality.bind(this, 1)}>1</button></li>
+            <li className="card-set-quality-btn"><button onClick={this.handleSetQuality.bind(this, 2)}>2</button></li>
+            <li className="card-set-quality-btn"><button onClick={this.handleSetQuality.bind(this, 3)}>3</button></li>
+            <li className="card-set-quality-btn"><button onClick={this.handleSetQuality.bind(this, 4)}>4</button></li>
+            <li className="card-set-quality-btn"><button onClick={this.handleSetQuality.bind(this, 5)}>5</button></li>
+          </ul>
+        </footer>
       </div>
     );
   }

@@ -25,8 +25,8 @@ const PageStudy = React.createClass({
 
     return (
       <div className="page-study">
-        <StudyCard />
         <StudySessionInfo />
+        <StudyCard />
       </div>
     );
   },
