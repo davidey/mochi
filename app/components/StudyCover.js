@@ -32,7 +32,7 @@ const StudyCover = React.createClass({
     const props = this.props;
 
     return (
-      <div>
+      <div className="study-cover">
         <p>You have {props.reviewCards} reviews for today</p>
         <p>Add <input type="number" value={fields.newCards} onChange={this.handleChangeNewCards}/> of&nbsp;
             {props.fields.newCards} new cards</p>

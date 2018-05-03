@@ -35,7 +35,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory}>{routes}</Router>
   </Provider>,
-  document.getElementById('content')
+  document.getElementById('app')
 );
 
 if (OFFLINE_ENABLED) {
