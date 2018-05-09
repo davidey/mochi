@@ -7,7 +7,6 @@ import {Router, Route, hashHistory} from 'react-router';
 import { FETCH_CARDS, fetchCards } from './cardActions.js';
 import { FETCH_ASSETS, fetchAssets } from './assetActions.js';
 import { store } from './store.js';
-import { cardDbReset } from './databases.js';
 import { OFFLINE_ENABLED } from './config.js';
 
 import App from './components/App';
@@ -18,7 +17,6 @@ import PageStudyAsset from './components/PageStudyAsset';
 import PageStudy from './components/PageStudy';
 import PageList from './components/PageList';
 
-// cardDbReset();
 store.dispatch(fetchCards());
 store.dispatch(fetchAssets());
 

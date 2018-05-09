@@ -7,6 +7,9 @@ import { START_STUDY, FETCH_CARDS_TO_STUDY, FETCH_CARDS_TO_STUDY_SUCCESS, VIEW_B
           SET_CARD_QUALITY, SET_CARD_QUALITY_SUCCESS } from './studyActions.js';
 import CardCollection from './helpers/CardCollection';
 
+const reduxDevTools =
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
 const defaultStudyState = {
   list: [],
   current: null,
@@ -27,7 +30,9 @@ const defaultCardState = {
 
 const defaultAssetState = {
   list: [],
-  current: ''
+  current: {
+    text: ''
+  }
 };
 
 const cardReducer = (state = defaultCardState, action) => {

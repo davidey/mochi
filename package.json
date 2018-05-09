@@ -36,6 +36,7 @@
     "immutable": "^3.7.6",
     "kuroshiro": "^0.2.1",
     "lodash": "^4.9.0",
+    "npm": "^6.0.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
     "react-redux": "^4.4.1",

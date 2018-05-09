@@ -141,3 +141,7 @@ header {
 .card-back footer ul .card-set-quality-btn button {
   flex: 1 1;
 }
+
+.study-asset-text {
+  font-size: 20px;
+}

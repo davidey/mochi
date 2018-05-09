@@ -10,13 +10,17 @@ kuroshiro.init({dicPath: 'dict/'});
 
 var CardForm = React.createClass({
   getInitialState: function() {
-    const { fields } = this.props;
     return {
-      fields
+      fields: {
+        front: '',
+        reading: '',
+        back: ''
+      }
     };
   },
   componentWillReceiveProps(nextProps) {
-    const { fields } = nextProps;
+    console.log('NEXT PROPERTIES', nextProps);
+    const fields = nextProps;
     this.setState({
       fields
     });
@@ -70,15 +74,6 @@ var CardForm = React.createClass({
   }
 });
 
-function mapStateToProps(state) {
-  return {
-    fields: {
-      front: state.cards.current.front,
-      back: state.cards.current.back
-    }
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     onSubmit: (fields) => {
@@ -87,4 +82,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardForm);
+export default CardForm;

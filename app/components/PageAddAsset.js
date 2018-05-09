@@ -17,7 +17,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onSubmit: (fields) => {
-
         console.log('ASSET FIELDS', fields);
       dispatch(addAsset(fields));
     }
