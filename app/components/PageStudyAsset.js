@@ -42,7 +42,7 @@ var PageStudyAsset = React.createClass({
       <div>
         <h2>Study Asset</h2>
         {props.asset && <p className="study-asset-text" ref='selectableArea'>{props.asset.text}</p>}
-        <CardForm front="test test" />
+        <CardForm front={state.selectedText} />
       </div>
     );
   }

@@ -20,7 +20,10 @@ var CardForm = React.createClass({
   },
   componentWillReceiveProps(nextProps) {
     console.log('NEXT PROPERTIES', nextProps);
-    const fields = nextProps;
+    const fields = {
+      front: nextProps.front,
+      reading: kuroshiro.convert(nextProps.front, {mode: 'okurigana'})
+    };
     this.setState({
       fields
     });
@@ -82,4 +85,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default CardForm;
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  const props = extend(ownProps, stateProps, dispatchProps);
+  console.log("PROPERTIES", props);
+  return props;
+};
+
+export default connect(null, mapDispatchToProps, mergeProps)(CardForm);
