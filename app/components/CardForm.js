@@ -19,7 +19,7 @@ var CardForm = React.createClass({
     };
   },
   componentWillReceiveProps(nextProps) {
-    console.log('NEXT PROPERTIES', nextProps);
+    console.log('NEXT PROPERTIES', nextProps, this.props);
     const fields = {
       front: nextProps.front,
       reading: kuroshiro.convert(nextProps.front, {mode: 'okurigana'})
@@ -86,8 +86,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-  const props = extend(ownProps, stateProps, dispatchProps);
-  console.log("PROPERTIES", props);
+  const props = extend({}, ownProps, stateProps, dispatchProps);
+  console.log("PROPERTIES", props, ownProps, stateProps, dispatchProps);
   return props;
 };
 
