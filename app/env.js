@@ -1,1 +1,1 @@
-/Users/davide/Projects/mochi/app/_env.dev.js
+/Users/davide/Projects/mochi/app/_env.prod.js

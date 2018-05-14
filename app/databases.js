@@ -2,15 +2,10 @@ import firebase from 'firebase';
 import 'firebase/firestore';
 import uuid from 'uuid/v1';
 
-var config = {
-  apiKey: "AIzaSyCsb5d7ppOMWy_Uvj6Y8ygBWGZ6CNlhWew",
-  authDomain: "mochi-d915a.firebaseapp.com",
-  databaseURL: "https://mochi-d915a.firebaseio.com",
-  projectId: "mochi-d915a",
-  storageBucket: "mochi-d915a.appspot.com",
-  messagingSenderId: "796369237287"
-};
-firebase.initializeApp(config);
+import { FIREBASE_DB_CONFIG } from './env';
+
+console.log('Database config', FIREBASE_DB_CONFIG);
+firebase.initializeApp(FIREBASE_DB_CONFIG);
 
 export let db = firebase.firestore();
 db.settings({timestampsInSnapshots: true});

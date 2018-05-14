@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "mochi-d915a"
+    "default": "mochi-d915a",
+    "dev": "mochi-dev-1a384",
+    "prod": "mochi-d915a"
   }
 }
